@@ -57,7 +57,10 @@ app.get('/board', function(req, res){
 });
 
 app.get('/flip', function(req, res){
+  // This ip calculation is based on the way I redirect a domain from 80 to another port.
+  // TODO: get the ip in a universal and correct way
   var ip = JSON.parse(JSON.stringify(req['headers']))['x-forwarded-for'];
+
   if (_.contains(config.bannedIPs,ip)) {
     res.send('You are banned!! Have you tried to mess with the application somehow?');
     return;
