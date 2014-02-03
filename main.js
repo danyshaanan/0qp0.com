@@ -64,7 +64,14 @@ app.get('/flip', function(req, res){
   }
   stats.flipRequestCount++;
   var cell = url.parse(req.url, true).query.cell;
-  fs.appendFile('log.txt', [(new Date()).getTime(),cell].join(' ') + '\n', function (err) { if (err) console.log(err) });
+  if (config.record.state) {
+    fs.appendFile(
+      'logs/' + config.record.filename,
+      [(new Date()).getTime(),cell].join(' ') + '\n',
+      function(err) {
+        if (err) console.log(err)
+      });
+  }
   if (board[cell]) delete board[cell];
   else board[cell] = 1;
   res.send('flip completed');
