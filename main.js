@@ -1,0 +1,83 @@
+'use strict';
+
+var url = require('url');
+var express = require('express');
+var fs = require('fs');
+var _ = require('lodash');
+var rek = require('rekuire');
+
+var config = undefined;
+
+function updateConfig() {
+  try {
+    config = JSON.parse(fs.readFileSync('config.json'));
+    config.bannedIPs = [].concat(config.bannedIPs);
+    config.modIPs = [].concat(config.modIPs);
+    console.log('Loaded config:\n', config);
+    return true;
+  } catch(e) {
+    console.log('Config loading failed\n', e);
+    if (!config) process.exit();
+  }
+}
+
+updateConfig();
+
+if (config.record.state) {
+  fs.appendFile(
+    'logs/' + config.record.filename,
+    'Starting at ' + (new Date()).getTime() + '...\n',
+    function(err) {
+      if (err) console.log(err)
+    });
+}
+
+var app = express();
+var publicFolder = __dirname + '/public/';
+var index = publicFolder + 'index.htm';
+var board = {};
+var stats = {
+  boardRequestCount: 0,
+  flipRequestCount: 0,
+  start: Date.now(),
+  startDate: new Date(Date.now())
+}
+
+app.use(express.static(publicFolder));
+app.get('/', function(req, res){
+  res.sendfile(index);
+});
+
+app.get(config.updateConfigPath, function(req, res){
+  res.send(updateConfig() ? 'success' : 'failed');
+});
+
+app.get('/board', function(req, res){
+  stats.boardRequestCount++;
+  res.send(board);
+});
+
+app.get('/flip', function(req, res){
+  var ip = JSON.parse(JSON.stringify(req['headers']))['x-forwarded-for'];
+  if (_.contains(config.bannedIPs,ip)) {
+    res.send('You are banned!! Have you tried to mess with the application somehow?');
+    return;
+  }
+  stats.flipRequestCount++;
+  var cell = url.parse(req.url, true).query.cell;
+  fs.appendFile('log.txt', [(new Date()).getTime(),cell].join(' ') + '\n', function (err) { if (err) console.log(err) });
+  if (board[cell]) delete board[cell];
+  else board[cell] = 1;
+  res.send('flip completed');
+});
+
+app.get('/stats', function(req, res){
+  stats.now = Date.now();
+  stats.nowDate = new Date(stats.now);
+  stats.hoursRunning = ((stats.now - stats.start)/1000/60/60).toFixed(3);
+  stats.flipsPerHour = stats.flipRequestCount / stats.hoursRunning;
+  res.send(stats);
+});
+
+app.listen(config.port);
+console.log('now listening to port', config.port)

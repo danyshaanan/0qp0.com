@@ -7,8 +7,5 @@
   },
   "modIPs": "400.400.400.400",
   "bannedIPs": ["300.300.300.300"],
-  "toOpenTheseUse": "[].concat(bannedIPs or modIPs)",
-
-  "updateConfigPath": "updateconfig",
-  "TODO": "Add a POST to get the process to reload the config"
+  "updateConfigPath": "/updateconfig"
 }
