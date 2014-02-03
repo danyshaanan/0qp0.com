@@ -4,7 +4,6 @@ var url = require('url');
 var express = require('express');
 var fs = require('fs');
 var _ = require('lodash');
-var rek = require('rekuire');
 
 var config = undefined;
 
