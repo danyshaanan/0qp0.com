@@ -5,7 +5,6 @@
     "state": true,
     "filename": "log.txt"
   },
-  "modIPs": "400.400.400.400",
   "bannedIPs": ["300.300.300.300"],
   "updateConfigPath": "/updateconfig"
 }
