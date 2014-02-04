@@ -36,6 +36,7 @@ function createBoard(boardSize, cellSize) {
     .css({ width: cellSize, height: cellSize, position: 'absolute', border: 'black 1px solid' })
     .click(function() {
       $.get('/flip?cell=' + $(this).attr('id'), update);
+      $(this).css('background-color', $(this).css('background-color') == 'black' ? 'white' : 'black');
     });
 }
 
