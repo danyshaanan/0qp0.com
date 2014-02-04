@@ -15,4 +15,5 @@ See in action on [0qp0.com](http://0qp0.com)
 * Consider using Meteor or socket.io
 * Add reply from logs
 * Add version number
+* app.get('/reset', function(req, res){ if (_contains(config.modIPs,ip)) process.exit()/*?*/;});
 * ...
