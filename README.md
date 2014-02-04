@@ -10,6 +10,7 @@ See in action on [0qp0.com](http://0qp0.com)
 
 ### TODOs
 
+* Add package.json with dependencies
 * Add channels
 * Consider using Meteor or socket.io
 * Add reply from logs
