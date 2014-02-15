@@ -14,7 +14,7 @@ fs.readFileSync(filename).toString().split('\n').forEach(function(line){
 
 results.filter(function(result) { return result.clicks.length }).forEach(function(result) {
   var name = 'log.' + result.clicks[0].uts + '-' + result.clicks[result.clicks.length-1].uts + '.json';
-  fs.writeFileSync(name, JSON.stringify(result,0,2));
+  fs.writeFileSync(name, JSON.stringify(result));
   console.log('Written file: ' + name + ', containing ' + result.clicks.length + ' clicks.');
 })
 
