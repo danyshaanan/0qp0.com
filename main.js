@@ -51,6 +51,11 @@ app.get(config.updateConfigPath, function(req, res){
   res.send(updateConfig() ? 'success' : 'failed');
 });
 
+app.get('/logs', function(req, res){
+  var files = fs.readdirSync('public/logs/').filter(function(file) { return /log\.\d+-\d+\.json/.test(file) });
+  res.send(files);
+});
+
 app.get('/board', function(req, res){
   stats.boardRequestCount++;
   res.send(board);

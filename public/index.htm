@@ -22,10 +22,10 @@ h1, h2, h3, h4, h5 { text-align: center; }
 <script type='text/javascript'>
 'use strict';
 
-var cells;
+var cells, updateInterval, playerInterval, board;
 
 function createBoard(boardSize, cellSize) {
-  var board = $('<div/>', { id: 'board' }).appendTo($('div#content'));
+  board = $('<div/>', { id: 'board' }).appendTo($('div#content'));
   for (var h=1; h<=boardSize; h++) {
     for (var w=1; w<=boardSize; w++) {
       $('<span/>', { id: h+'x'+w, style: 'top:' + (h*cellSize) + 'px; left:' + (w*cellSize) + 'px;' }).appendTo(board);
@@ -52,9 +52,32 @@ function update(force) {
 $(function() {
   createBoard(30, 20);
   $(window).focus(update);
-  setInterval(update, 1000);
+  updateInterval = setInterval(update, 1000);
   update(true);
 });
+
+
+function player(n) {
+  clearInterval(updateInterval);
+  clearInterval(playerInterval);
+  $('span', board).off('click').css('background-color','white');
+  $(window).off('focus');
+  $.get('/logs', function(logs) {
+    if (!logs[n]) return console.log('there is no "log ' + n + '".');
+    $.get('/logs/' + logs[n], playLog);
+  });
+}
+
+function playLog(log) {
+  var i = 0;
+  function next() {
+    if (!log.clicks[i]) return clearInterval(playerInterval);
+    var click = log.clicks[i++];
+    var j = $('#' + click.x + 'x' + click.y);
+    j.css('background-color', j.css('background-color') == 'rgb(0, 0, 0)' ? 'white' : 'rgb(0, 0, 0)');
+  }
+  playerInterval = setInterval(next,10);
+}
 
 
 
