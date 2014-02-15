@@ -58,10 +58,6 @@ $(function() {
 
 
 function player(n) {
-  clearInterval(updateInterval);
-  clearInterval(playerInterval);
-  $('span', board).off('click').css('background-color','white');
-  $(window).off('focus');
   $.get('/logs', function(logs) {
     if (!logs[n]) return console.log('there is no "log ' + n + '".');
     $.get('/logs/' + logs[n], playLog);
@@ -69,6 +65,10 @@ function player(n) {
 }
 
 function playLog(log) {
+  clearInterval(updateInterval);
+  clearInterval(playerInterval);
+  $('span', board).off('click').css('background-color','white');
+  $(window).off('focus');
   var i = 0;
   function next() {
     if (!log.clicks[i]) return clearInterval(playerInterval);
