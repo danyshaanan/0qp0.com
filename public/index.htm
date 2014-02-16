@@ -35,18 +35,23 @@ function createBoard(boardSize, cellSize) {
     .css({ width: cellSize, height: cellSize, position: 'absolute', border: 'black 1px solid' })
     .click(function() {
       $(this).css('background-color', $(this).css('background-color') == 'black' ? 'white' : 'black');
-      $.get('/flip?cell=' + $(this).attr('id'), update);
+      $.get('/flip?cell=' + $(this).attr('id'))
+        .then(function(res) {
+          console.log(res);
+          update();
+        });
     });
 }
 
 function update(force) {
   if (!force && !document.hasFocus()) return;
-  $.get('/board', function(board) {
-    cells.each(function(i, v) {
-      var j = $(v);
-      j.css('background-color', j.attr('id') in board ? 'black' : 'white');
+  $.get('/board')
+    .then(function(board) {
+      cells.each(function(i, v) {
+        var j = $(v);
+        j.css('background-color', j.attr('id') in board ? 'black' : 'white');
+      });
     });
-  });
 }
 
 $(function() {
@@ -58,25 +63,25 @@ $(function() {
 
 
 function player(n) {
-  $.get('/logs', function(logs) {
-    if (!logs[n]) return console.log('there is no "log ' + n + '".');
-    $.get('/logs/' + logs[n], playLog);
+  $.get('/logs')
+    .then(function(logs) {
+      if (!logs[n]) throw new Error('there is no "log ' + n + '".');
+      return $.get('/logs/' + logs[n]);
+    })
+    .then(function(log) {
+      clearInterval(updateInterval);
+      clearInterval(playerInterval);
+      $('span', board).off('click').css('background-color','white');
+      $(window).off('focus');
+      var i = 0;
+      function next() {
+        if (!log.clicks[i]) return clearInterval(playerInterval);
+        var click = log.clicks[i++];
+        var j = $('#' + click.x + 'x' + click.y);
+        j.css('background-color', j.css('background-color') == 'rgb(0, 0, 0)' ? 'white' : 'rgb(0, 0, 0)');
+      }
+      playerInterval = setInterval(next,10);
   });
-}
-
-function playLog(log) {
-  clearInterval(updateInterval);
-  clearInterval(playerInterval);
-  $('span', board).off('click').css('background-color','white');
-  $(window).off('focus');
-  var i = 0;
-  function next() {
-    if (!log.clicks[i]) return clearInterval(playerInterval);
-    var click = log.clicks[i++];
-    var j = $('#' + click.x + 'x' + click.y);
-    j.css('background-color', j.css('background-color') == 'rgb(0, 0, 0)' ? 'white' : 'rgb(0, 0, 0)');
-  }
-  playerInterval = setInterval(next,10);
 }
 
 
