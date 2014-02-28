@@ -4,7 +4,9 @@ var url = require('url');
 var express = require('express');
 var fs = require('fs');
 var _ = require('lodash');
+var State = require('./State.js');
 
+var state = new State('./state.json');
 var config = undefined;
 
 function updateConfig() {
@@ -34,7 +36,8 @@ if (config.record.state) {
 var app = express();
 var publicFolder = __dirname + '/public/';
 var index = publicFolder + 'index.htm';
-var board = {};
+var board = state.read('board');
+
 var stats = {
   boardRequestCount: 0,
   flipRequestCount: 0,
@@ -61,6 +64,11 @@ app.get('/board', function(req, res){
   res.send(board);
 });
 
+app.get('/save', function(req, res){
+  state.write('board', board);
+  res.send('Board saved!');
+});
+
 app.get('/flip', function(req, res){
   // This ip calculation is based on the way I redirect a domain from 80 to another port.
   // TODO: get the ip in a universal and correct way
@@ -82,6 +90,7 @@ app.get('/flip', function(req, res){
   }
   if (board[cell]) delete board[cell];
   else board[cell] = 1;
+  if (stats.flipRequestCount % 100 == 0) state.write('board', board);
   res.send('flip completed');
 });
 
