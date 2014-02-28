@@ -32,7 +32,7 @@ var index = publicFolder + 'index.htm';
 if (config.record.state) {
   fs.appendFile(
     'logs/' + config.record.filename,
-    'Starting at ' + (new Date()).getTime() + '...\n' + JSON.stringify(board),
+    'Starting at ' + (new Date()).getTime() + '...\n' + JSON.stringify(board) + '\n',
     function(err) {
       if (err) console.log(err)
     });
