@@ -24,19 +24,19 @@ function updateConfig() {
 
 updateConfig();
 
+var board = state.read('board');
+var app = express();
+var publicFolder = __dirname + '/public/';
+var index = publicFolder + 'index.htm';
+
 if (config.record.state) {
   fs.appendFile(
     'logs/' + config.record.filename,
-    'Starting at ' + (new Date()).getTime() + '...\n',
+    'Starting at ' + (new Date()).getTime() + '...\n' + JSON.stringify(board),
     function(err) {
       if (err) console.log(err)
     });
 }
-
-var app = express();
-var publicFolder = __dirname + '/public/';
-var index = publicFolder + 'index.htm';
-var board = state.read('board');
 
 var stats = {
   boardRequestCount: 0,
