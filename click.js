@@ -45,10 +45,7 @@ var stats = {
   startDate: new Date(Date.now())
 }
 
-app.use(express.static(publicFolder));
-app.get('/', function(req, res){
-  res.sendfile(index);
-});
+app.use(express.static(publicFolder, { index: 'index.htm' }));
 
 app.get(config.updateConfigPath, function(req, res){
   res.send(updateConfig() ? 'success' : 'failed');
