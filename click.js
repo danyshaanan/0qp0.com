@@ -26,7 +26,6 @@ updateConfig();
 
 var board = state.read('board');
 var app = express();
-var publicFolder = __dirname + '/public/';
 
 if (config.record.state) {
   fs.appendFile(
@@ -44,7 +43,7 @@ var stats = {
   startDate: new Date(Date.now())
 }
 
-app.use(express.static(publicFolder, { index: 'index.htm' }));
+app.use(express.static(__dirname + '/public/', { index: 'index.htm' }));
 
 app.get(config.updateConfigPath, function(req, res){
   res.send(updateConfig() ? 'success' : 'failed');
