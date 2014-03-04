@@ -27,7 +27,6 @@ updateConfig();
 var board = state.read('board');
 var app = express();
 var publicFolder = __dirname + '/public/';
-var index = publicFolder + 'index.htm';
 
 if (config.record.state) {
   fs.appendFile(
