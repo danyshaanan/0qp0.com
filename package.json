@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "require": "~0.5.0",
+    "express": "~3.4.8"
+  }
+}
