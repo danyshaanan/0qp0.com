@@ -10,7 +10,6 @@ See in action on [0qp0.com](http://0qp0.com)
 
 ### TODOs
 
-* Add shrinkwrap.
 * Add reply from logs
 * Add version number
 * app.get('/reset', function(req, res){ if (_contains(config.modIPs,ip)) process.exit()/*?*/;});
