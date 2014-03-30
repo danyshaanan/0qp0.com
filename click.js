@@ -88,10 +88,14 @@ io.sockets.on('connection', function(socket) {
           if (err) console.log(err)
         });
     }
-    if (board[cell]) delete board[cell];
-    else board[cell] = 1;
+    var index = board.indexOf(cell);
+    if (~index) {
+      board.splice(index, 1);
+    } else {
+      board.push(cell);
+    }
     if (stats.flipRequestCount % 100 == 0) state.write('board', board);
-    connections.broadcast('flip', { cell: cell, state: board[cell] });
+    connections.broadcast('flip', { cell: cell, state: !~index });
   });
 
   socket.on('stats', function() {

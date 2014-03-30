@@ -41,19 +41,22 @@ $(function() {
       });
   }
 
+  function set(cell, state) {
+    $('#' + cell).css('background-color', state ? 'black' : 'white');
+  }
+
   var socket = io.connect('/');
   var cells, board;
   // var updateInterval, playerInterval
 
   socket.on('flip', function (data) {
-    $('#' + data.cell).css('background-color', data.state ? 'black' : 'white'); //Extract to function after updating on('board')
+    set(data.cell, data.state);
   });
 
   socket.on('board',function(board) {
-    // cells.css('background-color', 'white'); // after changing board from object to array, do board.forEach here:
     cells.each(function(i, v) {
-      var j = $(v);
-      j.css('background-color', j.attr('id') in board ? 'black' : 'white');
+      var id = $(v).attr('id');
+      set(id, ~board.indexOf(id));
     });
   });
 
