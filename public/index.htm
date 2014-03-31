@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, h6 { text-align: center; }
 'use strict';
 
 $(function() {
-  if (!window.io) throw 'socket.io is node loaded! Aborting...'; //TODO: check error, show in gui.
+  if (!window.io) throw 'socket.io is not loaded! Aborting...'; //TODO: check error, show in gui.
 
   function createBoard(boardSize, cellSize) {
     board = $('<div/>', { id: 'board' }).appendTo($('div#content'));
