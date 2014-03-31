@@ -74,9 +74,12 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('flip', function(cell) {
-    // This ip calculation is based on the way I redirect a domain from 80 to another port. ?
-    // var ip = JSON.parse(JSON.stringify(req['headers']))['x-forwarded-for'];
-    // if (_.contains(config.bannedIPs,ip)) { return; } //TODO: put this in connection part
+    var ip = socket.handshake.address.address;
+    if (~config.bannedIPs.indexOf(ip)) {
+      console.log('banned ip:', ip);
+      socket.emit('banned', cell);
+      return;
+    }
 
     stats.flipRequestCount++;
     // var cell = url.parse(req.url, true).query.cell;

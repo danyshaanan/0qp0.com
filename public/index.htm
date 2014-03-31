@@ -46,11 +46,16 @@ $(function() {
   }
 
   var socket = io.connect('/');
-  var cells, board;
+  var cells, board; //TODO: Is board ever used? use it to hold current state on client.
   // var updateInterval, playerInterval
 
   socket.on('flip', function (data) {
     set(data.cell, data.state);
+  });
+
+  socket.on('banned', function(cell) {
+    console.log('flip rejected. You seem to be banned. Contact the site owner if you think this was a mistake');
+    //TODO: negate cell
   });
 
   socket.on('board',function(board) {
