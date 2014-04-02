@@ -13,7 +13,7 @@ var io = require('socket.io').listen(server);
 var Connections = require('./Connections.js');
 var connections = new Connections();
 var state = new State('./state.json');
-var config = undefined;
+var config = null;
 
 function updateConfig() {
   try {
@@ -37,7 +37,7 @@ if (config.record.state) {
     'logs/' + config.record.filename,
     'Starting at ' + (new Date()).getTime() + '...\n' + JSON.stringify(board) + '\n',
     function(err) {
-      if (err) console.log(err)
+      if (err) console.log(err);
     });
 }
 
@@ -46,7 +46,7 @@ var stats = {
   flipRequestCount: 0,
   start: Date.now(),
   startDate: new Date(Date.now())
-}
+};
 
 app.use(express.static(__dirname + '/public/', { index: 'index.htm' }));
 
@@ -56,11 +56,11 @@ io.sockets.on('connection', function(socket) {
   connections.add(socket);
 
   socket.on(config.updateConfigPath, function() {
-    socket.emit('updateConfig', updateConfig())
+    socket.emit('updateConfig', updateConfig());
   });
 
   socket.on('logs', function() {
-    socket.emit('logs', fs.readdirSync('public/logs/').filter(function(file) { return /log\.\d+-\d+\.json/.test(file) }))
+    socket.emit('logs', fs.readdirSync('public/logs/').filter(function(file) { return /log\.\d+-\d+\.json/.test(file); }));
   });
 
   socket.on('board', function() {
@@ -88,7 +88,7 @@ io.sockets.on('connection', function(socket) {
         'logs/' + config.record.filename,
         [(new Date()).getTime(),cell].join(' ') + '\n',
         function(err) {
-          if (err) console.log(err)
+          if (err) console.log(err);
         });
     }
     var index = board.indexOf(cell);
@@ -97,7 +97,7 @@ io.sockets.on('connection', function(socket) {
     } else {
       board.push(cell);
     }
-    if (stats.flipRequestCount % 100 == 0) state.write('board', board);
+    if (stats.flipRequestCount % 100 === 0) state.write('board', board);
     connections.broadcast('flip', { cell: cell, state: !~index });
   });
 
@@ -106,7 +106,7 @@ io.sockets.on('connection', function(socket) {
     stats.nowDate = new Date(stats.now);
     stats.hoursRunning = ((stats.now - stats.start)/1000/60/60).toFixed(3);
     stats.flipsPerHour = stats.flipRequestCount / stats.hoursRunning;
-    res.send(stats);
+    socket.emit('stats', stats); //TODO: add to client
   });
 
   socket.on('disconnect', function() {
@@ -117,4 +117,4 @@ io.sockets.on('connection', function(socket) {
 
 server.listen(config.port);
 // app.listen(config.port);
-console.log('now listening to port', config.port)
+console.log('now listening to port', config.port);

@@ -3,5 +3,9 @@
     "lodash": "~2.4.1",
     "express": "~3.4.8",
     "socket.io": "~0.9.16"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.10.0"
   }
 }
