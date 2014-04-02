@@ -12,12 +12,12 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var Connections = require('./Connections.js');
 var connections = new Connections();
-var state = new State('./state.json');
+var state = new State(__dirname + '/state.json');
 var config = null;
 
 function updateConfig() {
   try {
-    config = JSON.parse(fs.readFileSync('config.json'));
+    config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));
     config.bannedIPs = [].concat(config.bannedIPs);
     config.modIPs = [].concat(config.modIPs);
     console.log('Loaded config:\n', config);
@@ -34,7 +34,7 @@ var board = state.read('board');
 
 if (config.record.state) {
   fs.appendFile(
-    'logs/' + config.record.filename,
+    __dirname + '/../logs/' + config.record.filename,
     'Starting at ' + (new Date()).getTime() + '...\n' + JSON.stringify(board) + '\n',
     function(err) {
       if (err) console.log(err);

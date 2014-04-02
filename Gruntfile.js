@@ -2,7 +2,6 @@
 
 module.exports = function(grunt) {
 
-  // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
@@ -14,7 +13,7 @@ module.exports = function(grunt) {
             module: false
           }
         },
-        src: ['*.js']
+        src: ['server/**/*.js']
       },
       client: {
         options: {
@@ -25,7 +24,7 @@ module.exports = function(grunt) {
             io: false
           }
         },
-        src: ['public/js/clientClick.js']
+        src: ['public/js/**/*.js', '!public/js/libs/**/*.js']
       }
     }
   });
