@@ -5,26 +5,33 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
+      options: {
+        globalstrict: true,
+        // eqeqeq: true,
+        forin: true,
+        latedef: true,
+        quotmark: 'single',
+        undef: true,
+        trailing: true,
+        lastsemic: true
+      },
       server: {
+        src: ['server/**/*.js'],
         options: {
+          node: true,
           globalstrict: true,
-          globals: {
-            require: false,
-            module: false
-          }
-        },
-        src: ['server/**/*.js']
+          unused: 'vars'
+        }
       },
       client: {
+        src: ['public/js/**/*.js', '!public/js/libs/**/*.js'],
         options: {
-          globalstrict: true,
+          jquery: true,
           globals: {
             window: false,
-            $: false,
             io: false
           }
-        },
-        src: ['public/js/**/*.js', '!public/js/libs/**/*.js']
+        }
       }
     }
   });

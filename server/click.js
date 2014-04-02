@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-var url = require('url');
 var fs = require('fs');
-var _ = require('lodash');
+// var _ = require('lodash');
 var State = require('./State.js');
 var express = require('express');
 var app = express();
@@ -82,7 +81,6 @@ io.sockets.on('connection', function(socket) {
     }
 
     stats.flipRequestCount++;
-    // var cell = url.parse(req.url, true).query.cell;
     if (config.record.state) {
       fs.appendFile(
         'logs/' + config.record.filename,
