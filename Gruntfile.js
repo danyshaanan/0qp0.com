@@ -6,11 +6,26 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      src: {
+      server: {
         options: {
-          jshintrc: '.jshintrc'
+          globalstrict: true,
+          globals: {
+            require: false,
+            module: false
+          }
         },
-        src: ['Connections.js','Gruntfile.js','State.js','click.js']
+        src: ['*.js']
+      },
+      client: {
+        options: {
+          globalstrict: true,
+          globals: {
+            window: false,
+            $: false,
+            io: false
+          }
+        },
+        src: ['public/js/clientClick.js']
       }
     }
   });
