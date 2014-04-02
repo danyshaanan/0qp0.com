@@ -47,7 +47,7 @@ var stats = {
   startDate: new Date(Date.now())
 };
 
-app.use(express.static(__dirname + '/public/', { index: 'index.htm' }));
+app.use(express.static(__dirname + '/../public/', { index: 'index.htm' }));
 
 //////////////////
 
