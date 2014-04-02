@@ -1,10 +1,17 @@
+'use strict';
+
 module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      all: ['click.js']
+      src: {
+        options: {
+          jshintrc: '.jshintrc'
+        },
+        src: ['Connections.js','Gruntfile.js','State.js','click.js']
+      }
     }
   });
 
