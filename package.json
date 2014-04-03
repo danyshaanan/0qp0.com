@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4.4",
-    "grunt-contrib-jshint": "~0.10.0"
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-githooks": "~0.3.1"
   }
 }

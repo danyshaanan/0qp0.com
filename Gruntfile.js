@@ -4,6 +4,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    githooks: {
+      all: {
+        'pre-commit': 'jshint'
+      }
+    },
     jshint: {
       options: {
         globalstrict: true,
@@ -37,6 +42,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-githooks');
 
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['githooks','jshint']);
 };
