@@ -9,8 +9,6 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-var Connections = require('./Connections.js');
-var connections = new Connections();
 var state = new State(__dirname + '/state.json');
 var config = null;
 
@@ -52,8 +50,6 @@ app.use(express.static(__dirname + '/../public/', { index: 'index.htm' }));
 //////////////////
 
 io.sockets.on('connection', function(socket) {
-  connections.add(socket);
-
   socket.on(config.updateConfigPath, function() {
     socket.emit('updateConfig', updateConfig());
   });
@@ -96,7 +92,7 @@ io.sockets.on('connection', function(socket) {
       board.push(cell);
     }
     if (stats.flipRequestCount % 100 === 0) state.write('board', board);
-    connections.broadcast('flip', { cell: cell, state: !~index });
+    io.sockets.emit('flip', { cell: cell, state: !~index });
   });
 
   socket.on('stats', function() {
@@ -107,9 +103,7 @@ io.sockets.on('connection', function(socket) {
     socket.emit('stats', stats); //TODO: add to client
   });
 
-  socket.on('disconnect', function() {
-    connections.remove(socket);
-  });
+  // socket.on('disconnect', function() { });
 });
 
 
