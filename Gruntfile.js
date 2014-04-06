@@ -38,10 +38,21 @@ module.exports = function(grunt) {
           }
         }
       }
+    },
+    watch: {
+      scripts: {
+        files: ['**/*.js'],
+        tasks: ['jshint'],
+        options: {
+          event: ['added', 'deleted','changed']
+        }
+      }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-githooks');
 
   grunt.registerTask('default', ['githooks','jshint']);
