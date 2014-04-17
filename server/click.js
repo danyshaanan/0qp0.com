@@ -29,15 +29,6 @@ updateConfig();
 
 var board = state.read('board');
 
-// if (config.record.state) {
-//   fs.appendFile(
-//     __dirname + '/../logs/' + config.record.filename,
-//     'Starting at ' + (new Date()).getTime() + '...\n' + JSON.stringify(board) + '\n',
-//     function(err) {
-//       if (err) console.log(err);
-//     });
-// }
-
 var stats = {
   boardRequestCount: 0,
   flipRequestCount: 0,
@@ -53,10 +44,6 @@ io.sockets.on('connection', function(socket) {
   socket.on(config.updateConfigPath, function() {
     socket.emit('updateConfig', updateConfig());
   });
-
-  // socket.on('logs', function() {
-  //   socket.emit('logs', fs.readdirSync('public/logs/').filter(function(file) { return /log\.\d+-\d+\.json/.test(file); }));
-  // });
 
   socket.on('board', function() {
     stats.boardRequestCount++;
@@ -77,14 +64,6 @@ io.sockets.on('connection', function(socket) {
     }
 
     stats.flipRequestCount++;
-    // if (config.record.state) {
-    //   fs.appendFile(
-    //     'logs/' + config.record.filename,
-    //     [(new Date()).getTime(),cell].join(' ') + '\n',
-    //     function(err) {
-    //       if (err) console.log(err);
-    //     });
-    // }
     var index = board.indexOf(cell);
     if (~index) {
       board.splice(index, 1);
@@ -108,5 +87,4 @@ io.sockets.on('connection', function(socket) {
 
 
 server.listen(config.port);
-// app.listen(config.port);
 console.log('now listening to port', config.port);

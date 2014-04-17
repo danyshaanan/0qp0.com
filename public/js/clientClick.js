@@ -45,26 +45,3 @@ function clientClick() {
   createBoard(30, 20);
   socket.emit('board');
 }
-
-
-// function player(n) {
-//   $.get('/logs')
-//     .then(function(logs) {
-//       if (!logs[n]) throw new Error('there is no "log ' + n + '".');
-//       return $.get('/logs/' + logs[n]);
-//     })
-//     .then(function(log) {
-//       clearInterval(updateInterval);
-//       clearInterval(playerInterval);
-//       $('span', board).off('click').css('background-color','white');
-//       $(window).off('focus');
-//       var i = 0;
-//       function next() {
-//         if (!log.clicks[i]) return clearInterval(playerInterval);
-//         var click = log.clicks[i++];
-//         var j = $('#' + click.x + 'x' + click.y);
-//         j.css('background-color', j.css('background-color') == 'rgb(0, 0, 0)' ? 'white' : 'rgb(0, 0, 0)');
-//       }
-//       playerInterval = setInterval(next,10);
-//   });
-// }
