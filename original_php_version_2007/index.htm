@@ -1,0 +1,274 @@
+﻿<html>
+<head>
+	<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+	<title>Digital Graffiti</title>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<style>
+		img {border: 0px;}
+		body {background:rgb(88,88,88); color:rgb(255,255,255);}
+		body {text-align:left; direction:ltr; font-size:10pt; font-family:Fixedsys,"arial";}
+		body {margin-left:7%; margin-right:7%; margin-top:0em; margin-bottom:0em;}
+	</style>
+
+</head>
+
+
+
+<script type="text/javascript">
+
+////////////////////////////////////////////////////////r4k//////////////////////////////////////////////////////////////////////////
+function timedMsg()
+	{
+	makeRequest('dg.php');
+	var t=setTimeout("timedMsg()",4000);
+}
+timedMsg();
+////////////////////////////////////////////////////////render//////////////////////////////////////////////////////////////////////////
+function alertContents(httpRequest) {
+	if (httpRequest.readyState == 4) {
+		if (httpRequest.status == 200) {
+			var txtdoc = httpRequest.responseText;
+
+
+
+
+
+			var html = "";
+			for (var x = 1; x <= 640; x++)
+				{
+				html = html + "<img src="
+				+ txtdoc.substr(x-1,1)
+				+ ".bmp width=21 style=\"cursor: pointer;\" onclick=\"makeRequest('dg.php?n="
+				+ x
+				+ "')\">";
+				if ((x%32) == 0)
+					{
+					html = html + "<br>";
+				}
+			}
+
+			document.getElementById("zone").innerHTML = html;
+		} else { document.getElementById("zone").innerHTML = 'There was a problem with the request.';	}
+	}
+}
+///////////////////////////////////////////////////////ajax//////////////////////////////////////////////////////////////////////////
+
+function makeRequest(url) {
+	var httpRequest;
+
+	if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+		httpRequest = new XMLHttpRequest();
+		if (httpRequest.overrideMimeType)
+			{
+			httpRequest.overrideMimeType('text/xml'); // See note below about this line
+		}
+	} 
+	else if (window.ActiveXObject) { // IE
+		try
+			{
+			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		} 
+		catch (e) {
+			try
+				{
+				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			} 
+			catch (e) {
+			}
+		}
+	}
+
+	if (!httpRequest) {
+		alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+	}
+	httpRequest.onreadystatechange = function()
+		{
+		alertContents(httpRequest);
+	};
+	httpRequest.open('GET', url, true);
+	httpRequest.send('');
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+</script>
+
+<!--/////////////////////////////////////////////////////dg.php and IE killer/////////////////////////////////-->
+<body onload="makeRequest('dg.php');javascript:hasIE_hideAndShow();">
+
+
+
+
+<script type="text/javascript">
+
+/////////////////////////////////////////////////////////////IE killer
+<!--
+var hasIE_phone_home = 0;
+function hasIE_hasIE() {
+  var ua = navigator.userAgent.toLowerCase();
+  return ((ua.indexOf('msie') != -1) && (ua.indexOf('opera') == -1) && 
+          (ua.indexOf('webtv') == -1) &&
+          (location.href.indexOf('seenIEPage') == -1));
+}
+function hasIE_showOnlyLayer(whichLayer)
+{
+  if (document.getElementById)
+    {
+      var style2 = document.getElementById(whichLayer);
+    }
+  else if (document.all)
+    {
+      var style2 = document.all[whichLayer];
+    }
+  else if (document.layers)
+    {
+      var style2 = document.layers[whichLayer];
+    }
+  var body = document.getElementsByTagName('body');
+  body[0].innerHTML = style2.innerHTML;
+}
+function hasIE_showLayer(whichLayer)
+{
+  if (document.getElementById)
+    {
+      var style2 = document.getElementById(whichLayer).style;
+      style2.display = "block";
+    }
+  else if (document.all)
+    {
+      var style2 = document.all[whichLayer].style;
+      style2.display = "block";
+    }
+  else if (document.layers)
+    {
+      var style2 = document.layers[whichLayer].style;
+      style2.display = "block";
+    }
+}
+function hasIE_moveAd(adid) {
+  if (document.getElementById)
+    {
+      var ad = document.getElementById('hasIE_ad');
+      var adloc = document.getElementById(adid);
+    }
+  else if (document.all)
+    {
+      var ad = document.all['hasIE_ad'];
+      var adloc = document.all[adid];
+    }
+  else if (document.layers)
+    {
+      var ad = document.layers['hasIE_ad'];
+      var adloc = document.layers[adid];
+    }
+  adloc.innerHTML = ad.innerHTML;
+}
+function hasIE_hideAndShow() {
+  if (hasIE_hasIE()) {
+    hasIE_showOnlyLayer("hasIE_level3");
+          if (hasIE_phone_home == 1)
+            hasIE_phoneHome('getIE_pingimage3');
+  } else {
+    if (hasIE_phone_home == 1)
+      hasIE_phoneHome('getIE_pingimage0');
+  }
+}
+function hasIE_phoneHome(image) {
+  if (document.getElementById)
+    {
+      var img = document.getElementById(image);
+    }
+  else if (document.all)
+    {
+      var img = document.all[image];
+    }
+  else if (document.layers)
+    {
+      var img = document.layers[image];
+    }
+  img.setAttribute('src','http://getunder50.com/ping.php?host='+location.host);
+}
+function hasIE_ContinueWithoutFF() {
+    if (location.href.indexOf('?') != -1)
+        location.href += '&seenIEPage=1';
+    else
+        location.href += '?seenIEPage=1';
+}
+-->
+</script>
+
+<span style="position:absolute; width: 0px; height:0px; left:-1000px; top: -1000px"><img id="getIE_pingimage0"/></span>
+
+<div id="hasIE_level3" style="display: none;">
+<span style="position:absolute; width: 0px; height:0px; left:-1000px; top: -1000px"><img id="getIE_pingimage3"/></span>
+
+<Br /><Br /><Br /><Br /><Br />
+
+<div style="padding: 20px; background-color: #ffffbb; font-family: arial; font-size: 15px; font-weight: normal; color: #111111; line-height: 17px;">
+
+
+<div style="width: 630px; margin: 0 auto 0 auto;">
+
+<div style="padding-left: 10px; padding-top: 0px; float: right;">
+
+
+<a href="http://www.spreadfirefox.com/?q=affiliates&id=0&t=50"><img border="0" alt="Get Firefox!" title="Get Firefox!" src="http://sfx-images.mozilla.org/affiliates/Banners/125x125/trust.png"/></a>
+
+
+</div>
+<br />
+<strong>
+I am truely sorry,
+but the code I wrote for this page happened to be incompatible with Internet Explorer,
+and I rather invest my coding powers in new and exciting things.
+If you know anything about JavaScript and browser compatibility,
+feel free to look at the code and search for the problem. in the meanwhile, you can use FireFox.
+<br>
+Thanks, Dany.</strong>  
+<br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br /><br />
+Click the button on the right to download Firefox.
+<br /><br /><br />
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!--/////////////////////////////////////////////page////////////////////////////////////////////////////////////////////////////-->
+
+
+
+<br><br>
+<div align=center>
+	11.10.2007<br>Digital Graffiti<br>By DanyShaanan at gmail dot com
+</div>
+
+<br><br>
+
+<table width=100% height=450>
+	<tr>
+		<td align=center>
+			<div id="zone">
+				Loading...
+			</div>
+		</td>
+	</tr>
+	
+</table>
+
+<div align=center>
+Click on a tile to invert its color.<br>Create patterns, write your name, or just play with it, but beware, you might not be the only one playing.<br>If you see that you are not alone, feel free to interact with others in any way you can imagine.<br>The grid refreshes itself every four seconds, and each time you click it.
+</div>
+
+<br><br>
+</body>
+</html>
+
+
