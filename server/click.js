@@ -3,7 +3,7 @@
 
 var fs = require('fs')
 var path = require('path')
-// var _ = require('lodash');
+var _ = require('lodash')
 var State = require('./State.js')
 var express = require('express')
 var app = express()
@@ -11,22 +11,19 @@ var http = require('http')
 var server = http.createServer(app)
 var io = require('socket.io').listen(server)
 var state = new State(path.join(__dirname, '/state.json'))
-var config = null
 
-function updateConfig() {
+function getConfigFile() {
   try {
-    config = JSON.parse(fs.readFileSync(path.join(__dirname, '/config.json')))
-    config.bannedIPs = [].concat(config.bannedIPs)
-    config.modIPs = [].concat(config.modIPs)
-    console.log('Loaded config:\n', config)
-    return true
+    return JSON.parse(fs.readFileSync(path.join(__dirname, '/config.json')))
   } catch (e) {
-    console.log('Config loading failed\n', e)
-    if (!config) process.exit()
+    return {}
   }
 }
 
-updateConfig()
+var config = _.assign(getConfigFile(), { port: 8080 })
+
+config.bannedIPs = [].concat(config.bannedIPs || [])
+console.log('Loaded config:\n', config)
 
 var board = state.read('board')
 
@@ -42,10 +39,6 @@ app.use(express.static(path.join(__dirname, '/../public/'), { index: 'index.htm'
 // ////////////////
 
 io.sockets.on('connection', function(socket) {
-  socket.on(config.updateConfigPath, function() {
-    socket.emit('updateConfig', updateConfig())
-  })
-
   socket.on('board', function() {
     stats.boardRequestCount++
     socket.emit('board', board)
