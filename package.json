@@ -12,6 +12,7 @@
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "start": "node server/click.js"
   }
 }
