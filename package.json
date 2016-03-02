@@ -1,4 +1,13 @@
 {
+  "name": "click",
+  "version": "2.0.0",
+  "description": "Multiuser pixel art drawing board",
+  "author": "Dany Shaanan",
+  "repository": "git@github.com:danyshaanan/click.git",
+  "homepage": "http://0qp0.com",
+  "bugs": "https://github.com/danyshaanan/click/issues",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
     "express": "4.13.4",
     "lodash": "4.6.1",
