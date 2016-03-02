@@ -1,7 +1,7 @@
-'use strict'
-
-function clientClick() {
-  if (!window.io) throw 'socket.io is not loaded! Aborting...' // TODO: check error, show in gui.
+/* globals $,io */
+function clientClick() { // eslint-disable-line no-unused-vars
+  'use strict'
+  if (!window.io) throw new Error('socket.io is not loaded! Aborting...') // TODO: check error, show in gui.
 
   function createBoard(boardSize, cellSize) {
     board = $('<div/>', { id: 'board' }).appendTo($('div#content'))
@@ -13,7 +13,7 @@ function clientClick() {
     cells = $('span', board)
       .css({ width: cellSize, height: cellSize, position: 'absolute', border: 'black 1px solid' })
       .click(function() {
-        $(this).css('background-color', $(this).css('background-color') == 'black' ? 'white' : 'black')
+        $(this).css('background-color', $(this).css('background-color') === 'black' ? 'white' : 'black')
         socket.emit('flip', $(this).attr('id'))
       })
   }

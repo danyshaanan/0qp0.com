@@ -1,7 +1,7 @@
-
-function clientClickKeyboard() {
+/* globals $ */
+function clientClickKeyboard() { // eslint-disable-line no-unused-vars
   'use strict'
-  if (!window.$) throw '$ is not loaded! Aborting...' // TODO: check error, show in gui.
+  if (!window.$) throw new Error('$ is not loaded! Aborting...') // TODO: check error, show in gui.
 
   function setSelected() {
     window.localStorage.selectedId = id

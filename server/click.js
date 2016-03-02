@@ -2,6 +2,7 @@
 'use strict'
 
 var fs = require('fs')
+var path = require('path')
 // var _ = require('lodash');
 var State = require('./State.js')
 var express = require('express')
@@ -9,12 +10,12 @@ var app = express()
 var http = require('http')
 var server = http.createServer(app)
 var io = require('socket.io').listen(server)
-var state = new State(__dirname + '/state.json')
+var state = new State(path.join(__dirname, '/state.json'))
 var config = null
 
 function updateConfig() {
   try {
-    config = JSON.parse(fs.readFileSync(__dirname + '/config.json'))
+    config = JSON.parse(fs.readFileSync(path.join(__dirname, '/config.json')))
     config.bannedIPs = [].concat(config.bannedIPs)
     config.modIPs = [].concat(config.modIPs)
     console.log('Loaded config:\n', config)
@@ -36,7 +37,7 @@ var stats = {
   startDate: new Date(Date.now())
 }
 
-app.use(express.static(__dirname + '/../public/', { index: 'index.htm' }))
+app.use(express.static(path.join(__dirname, '/../public/'), { index: 'index.htm' }))
 
 // ////////////////
 
@@ -84,7 +85,6 @@ io.sockets.on('connection', function(socket) {
 
   // socket.on('disconnect', function() { });
 })
-
 
 server.listen(config.port)
 console.log('now listening to port', config.port)
