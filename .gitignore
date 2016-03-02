@@ -7,3 +7,4 @@ logs/log*
 public/logs/log*
 
 state.json
+npm-debug.log
