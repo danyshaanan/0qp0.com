@@ -5,7 +5,7 @@ var fs = require('fs')
 function State(path) {
   this._path = path
   if (!fs.existsSync(this._path)) {
-    throw new Error('State path does not exist!')
+    fs.writeFileSync(this._path, JSON.stringify({ board: [] }))
   }
 }
 
