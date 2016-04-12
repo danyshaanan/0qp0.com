@@ -3,6 +3,8 @@ function clientClick() { // eslint-disable-line no-unused-vars
   'use strict'
   if (!window.io) throw new Error('socket.io is not loaded! Aborting...') // TODO: check error, show in gui.
 
+  var boardLoaded = false
+
   function createBoard(boardSize, cellSize) {
     board = $('<div/>', { id: 'board' }).appendTo($('div#content'))
     for (var h = 1; h <= boardSize; h++) {
@@ -13,8 +15,10 @@ function clientClick() { // eslint-disable-line no-unused-vars
     cells = $('span', board)
       .css({ width: cellSize, height: cellSize, position: 'absolute', border: 'black 1px solid' })
       .click(function() {
-        $(this).css('background-color', $(this).css('background-color') === 'black' ? 'white' : 'black')
-        socket.emit('flip', $(this).attr('id'))
+        if (boardLoaded) {
+          $(this).css('background-color', $(this).css('background-color') === 'black' ? 'white' : 'black')
+          socket.emit('flip', $(this).attr('id'))
+        }
       })
   }
 
@@ -36,6 +40,7 @@ function clientClick() { // eslint-disable-line no-unused-vars
   })
 
   socket.on('board', function(board) {
+    boardLoaded = true
     cells.each(function(i, v) {
       var id = $(v).attr('id')
       set(id, ~board.indexOf(id))
