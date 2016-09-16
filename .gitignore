@@ -1,0 +1,10 @@
+
+*.swp
+config.json
+node_modules
+.DS_Store
+logs/log*
+public/logs/log*
+
+state.json
+npm-debug.log
