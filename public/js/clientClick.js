@@ -16,7 +16,7 @@ function clientClick() { // eslint-disable-line no-unused-vars
       .css({ width: cellSize, height: cellSize, position: 'absolute', border: 'black 1px solid' })
       .click(function() {
         if (boardLoaded) {
-          $(this).css('background-color', $(this).css('background-color') === 'black' ? 'white' : 'black')
+          // $(this).css('background-color', $(this).css('background-color') === 'black' ? 'white' : 'black')
           socket.emit('flip', $(this).attr('id'))
         }
       })
