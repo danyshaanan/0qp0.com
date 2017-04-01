@@ -47,6 +47,6 @@ function clientClick() { // eslint-disable-line no-unused-vars
     })
   })
 
-  createBoard(30, 20)
+  createBoard(60, 10)
   socket.emit('board')
 }

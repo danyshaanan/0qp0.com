@@ -14,7 +14,7 @@ function clientClickKeyboard() { // eslint-disable-line no-unused-vars
       $('#' + id).click()
       return false
     } else if (~[37, 38, 39, 40].indexOf(e.which)) {
-      var boardSize = 30
+      var boardSize = 60
       var dim = (e.which % 2) ? 1 : 0
       var diff = (e.which <= 38) ? -1 : 1
       var pair = id.split('x').map(function(v) { return parseInt(v) })
