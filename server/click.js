@@ -52,6 +52,10 @@ io.sockets.on('connection', function(socket) {
   })
 
   socket.on('flip', function(cell) {
+
+    if (Date.now() - socket.last < 333) return
+    socket.last = Date.now()
+
     var ip = socket.handshake.address.address
     if (~config.bannedIPs.indexOf(ip)) {
       console.log('banned ip:', ip)
