@@ -38,6 +38,8 @@ app.use(express.static(path.join(__dirname, '/../public/'), { index: 'index.htm'
 
 // ////////////////
 
+io.set('log level', 1)
+
 io.sockets.on('connection', function(socket) {
   socket.on('board', function() {
     stats.boardRequestCount++
