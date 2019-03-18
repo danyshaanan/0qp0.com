@@ -12,7 +12,7 @@ var server = http.createServer(app)
 var io = require('socket.io').listen(server)
 var state = new State(path.join(__dirname, '/state.json'))
 
-var timeBetweenClicks = 333
+var timeBetweenClicks = 33
 
 function getConfigFile() {
   try {
