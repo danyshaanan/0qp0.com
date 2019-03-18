@@ -12,6 +12,8 @@ var server = http.createServer(app)
 var io = require('socket.io').listen(server)
 var state = new State(path.join(__dirname, '/state.json'))
 
+var timeBetweenClicks = 333
+
 function getConfigFile() {
   try {
     return JSON.parse(fs.readFileSync(path.join(__dirname, '/config.json')))
@@ -52,7 +54,7 @@ io.sockets.on('connection', function(socket) {
   })
 
   socket.on('flip', function(cell) {
-    if (Date.now() - socket.last < 333) return
+    if (Date.now() - socket.last < timeBetweenClicks) return
     socket.last = Date.now()
 
     var ip = socket.handshake.address.address
