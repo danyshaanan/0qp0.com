@@ -9,9 +9,9 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "express": "4.13.4",
+    "express": "4.16.4",
     "lodash": "4.17.11",
-    "socket.io": "1.4.5"
+    "socket.io": "2.2.0"
   },
   "devDependencies": {
     "eslint": "2.2.0",
