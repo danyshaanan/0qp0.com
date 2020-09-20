@@ -36,24 +36,24 @@ var stats = {
   startDate: new Date(Date.now())
 }
 
-app.use(express.static(path.join(__dirname, '/../public/'), { index: 'index.htm' }))
+app.use(express.static(path.join(__dirname, '/../public/'), { index: 'index.html' }))
 
 // ////////////////
 
 io.set('log level', 1)
 
-io.sockets.on('connection', function(socket) {
-  socket.on('board', function() {
+io.sockets.on('connection', function (socket) {
+  socket.on('board', function () {
     stats.boardRequestCount++
     socket.emit('board', board)
   })
 
-  socket.on('save', function() {
+  socket.on('save', function () {
     state.write('board', board)
     socket.emit('save', 'Board saved!')
   })
 
-  socket.on('flip', function(cell) {
+  socket.on('flip', function (cell) {
     if (Date.now() - socket.last < timeBetweenClicks) return
     socket.last = Date.now()
 
@@ -75,7 +75,7 @@ io.sockets.on('connection', function(socket) {
     io.sockets.emit('flip', { cell: cell, state: !~index })
   })
 
-  socket.on('stats', function() {
+  socket.on('stats', function () {
     stats.now = Date.now()
     stats.nowDate = new Date(stats.now)
     stats.hoursRunning = ((stats.now - stats.start) / 1000 / 60 / 60).toFixed(3)

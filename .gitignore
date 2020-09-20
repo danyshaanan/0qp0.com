@@ -5,6 +5,8 @@ node_modules
 .DS_Store
 logs/log*
 public/logs/log*
+.cache
+public/dist
 
 state.json
 npm-debug.log

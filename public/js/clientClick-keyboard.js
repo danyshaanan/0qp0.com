@@ -1,31 +1,27 @@
-/* globals $ */
-function clientClickKeyboard() { // eslint-disable-line no-unused-vars
-  'use strict'
-  if (!window.$) throw new Error('$ is not loaded! Aborting...') // TODO: check error, show in gui.
+'use strict'
+export default function clientClickKeyboard() { // eslint-disable-line no-unused-vars
 
-  function setSelected() {
+  function setSelected(id) {
     window.localStorage.selectedId = id
-    $('span').css('border', 'solid black 1px')
-    $('#' + id).css('border', 'solid grey 2px')
+    $('.selectedCell').removeClass('selectedCell')
+    $('#' + id).addClass('selectedCell')
   }
 
-  function handleKey(e) {
-    if (e.which === 32) {
-      $('#' + id).click()
-      return false
-    } else if (~[37, 38, 39, 40].indexOf(e.which)) {
-      var boardSize = 30
-      var dim = (e.which % 2) ? 1 : 0
-      var diff = (e.which <= 38) ? -1 : 1
-      var pair = id.split('x').map(function(v) { return parseInt(v) })
+  function handleKey(event) {
+    const key = event.which;
+    if (key === 32 || key === 13) {  // Space or Enter
+      $('#' + id).trigger("click")
+    } else if ([37, 38, 39, 40].includes(key)) {
+      const boardSize = 30
+      const dim = (key % 2) ? 1 : 0
+      const diff = (key <= 38) ? -1 : 1
+      const pair = id.split('x').map(function (v) { return parseInt(v) })
       pair[dim] = (pair[dim] + boardSize + diff - 1) % boardSize + 1
       id = pair.join('x')
-      setSelected()
-      return false
+      setSelected(id)
     }
   }
 
-  var id = window.localStorage.selectedId || '1x1'
-  setSelected()
-  $('body').keydown(handleKey)
+  let id = window.localStorage.selectedId || '1x1'
+  $('body').on('keydown', handleKey)
 }
