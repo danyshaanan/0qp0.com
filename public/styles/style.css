@@ -53,10 +53,14 @@ a:hover {
 }
 
 /* ELEMENTS */
-#board {
+.container {
 	width: calc(30 * 20px);
-	height: calc(30 * 20px);
 	margin: auto;
+}
+
+#board {
+	width: 100%;
+	height: calc(30 * 20px);
 	display: grid;
 	grid-template-columns: repeat(30, auto);
 	grid-gap: 0;
@@ -136,4 +140,20 @@ a:hover {
 	to {
 		width: 100%;
 	}
+}
+
+
+
+/* STATS */
+#statsContainer {
+	display: none;
+}
+
+#statsContainer {
+	text-align: center;
+}
+
+/* HISTORY */
+#historyContainer {
+	display: none;
 }

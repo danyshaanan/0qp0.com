@@ -1,8 +1,6 @@
 /* global io */
 'use strict'
 
-import { find } from "lodash"
-
 export default function clientClick() {
   if (!window.io) throw new Error('socket.io is not loaded! Aborting...') // TODO: check error, show in gui.
 
@@ -24,23 +22,24 @@ export default function clientClick() {
   }
 
 
-  var socket = io.connect('/')
+  const socket = io.connect('/')
+  window.socket = socket;
   let $cells = []
-  let $board // TODO: Is board ever used? use it to hold current state on client.
+  let $board
 
   socket.on('flip', function (data) {
     set(data.cell, data.state)
   })
 
   socket.on('banned', function (cell) {
-    window.console.log('flip rejected. You seem to be banned. Contact the site owner if you think this was a mistake')
+    console.log('flip rejected. You seem to be banned. Contact the site owner if you think this was a mistake')
     // TODO: negate cell
   })
 
   socket.on('board', function (board) {
     boardLoaded = true
     $cells.each(function (index, element) {
-      var id = $(element).attr('id')
+      const id = $(element).attr('id')
       set(id, ~board.indexOf(id))
     })
 
@@ -53,4 +52,5 @@ export default function clientClick() {
 
   createBoard()
   socket.emit('board')
+  socket.emit('stats')
 }

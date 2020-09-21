@@ -80,7 +80,7 @@ io.sockets.on('connection', function (socket) {
     stats.nowDate = new Date(stats.now)
     stats.hoursRunning = ((stats.now - stats.start) / 1000 / 60 / 60).toFixed(3)
     stats.flipsPerHour = stats.flipRequestCount / stats.hoursRunning
-    socket.emit('stats', stats) // TODO: add to client
+    socket.emit('stats', stats)
   })
 
   // socket.on('disconnect', function() { });

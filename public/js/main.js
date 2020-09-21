@@ -1,10 +1,11 @@
-'use strict';
+'use strict'
 import clientClick from "./clientClick"
 import clientClickKeyboard from "./clientClick-keyboard"
-import navManagment from "./navManagment"
+import { navManagment, statsTracker } from "./navItems"
 
 $(function () {
-	clientClick();
-	clientClickKeyboard();
-	navManagment();
-});
+	clientClick()
+	clientClickKeyboard()
+	navManagment()
+	statsTracker()
+})
