@@ -5,14 +5,16 @@ var fs = require('fs')
 var path = require('path')
 var _ = require('lodash')
 var State = require('./State.js')
+var History = require('./History.js')
 var express = require('express')
 var app = express()
 var http = require('http')
 var server = http.createServer(app)
 var io = require('socket.io').listen(server)
-var state = new State(path.join(__dirname, '/state.json'))
+const state = new State(path.join(__dirname, '/state.json'))
+const history = new History(path.join(__dirname, '/history'))
 
-var timeBetweenClicks = 33
+const timeBetweenClicks = 33
 
 function getConfigFile() {
   try {
@@ -38,7 +40,8 @@ var stats = {
 
 app.use(express.static(path.join(__dirname, '/../public/'), { index: 'index.html' }))
 
-// ////////////////
+
+// Application
 
 io.set('log level', 1)
 
@@ -46,6 +49,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('board', function () {
     stats.boardRequestCount++
     socket.emit('board', board)
+    history.update(board)
   })
 
   socket.on('save', function () {
