@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 export function navManagment() {
 	const $nav = $('.nav')
 	let $selectedItem = $("[data-id='boardContainer']")

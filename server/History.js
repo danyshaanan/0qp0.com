@@ -2,6 +2,8 @@ const fs = require('fs')
 
 class History {
 
+
+	// DAILY SAVING
 	constructor(folderPath) {
 		this._path = folderPath + "/"
 		this.lastSavedDay = {
@@ -28,7 +30,6 @@ class History {
 		}
 		return
 	}
-
 
 	saveData(board, pathToFile, month, day) {
 		const pathWithFile = pathToFile + `/${month}.json`
@@ -63,6 +64,30 @@ class History {
 			"board": board
 		}
 		return data
+	}
+
+	// RESPONG TO REQUEST
+	getHistoryData(year) {
+		const today = new Date()
+		const currentYear = today.getFullYear()
+		const folderPath = `${this._path}${year}`
+
+		const data = {}
+		if (fs.existsSync(folderPath)) {
+			let totalMonth = year === currentYear ? today.getMonth() : 11
+			for (let month = 0; month <= totalMonth; month++) {
+				data[month] = this.getHistoryWithDate(`${folderPath}/${month}.json`)
+			}
+		}
+		return data
+	}
+
+	getHistoryWithDate(filePath) {
+		if (fs.existsSync(filePath)) {
+			var data = fs.readFileSync(filePath)
+			return JSON.parse(data)
+		}
+		return null
 	}
 }
 
