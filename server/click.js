@@ -87,9 +87,9 @@ io.sockets.on('connection', function (socket) {
     socket.emit('stats', stats)
   })
 
-  socket.on('history', function (type) {
-    const data = history.getHistoryData(type)
-    socket.emit('history', data)
+  socket.on('history', function (year) {
+    const data = history.getHistoryData(year)
+    socket.emit('history', data, year)
   })
 
   // socket.on('disconnect', function() { });

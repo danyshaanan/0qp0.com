@@ -2,7 +2,6 @@ const fs = require('fs')
 
 class History {
 
-
 	// DAILY SAVING
 	constructor(folderPath) {
 		this._path = folderPath + "/"
@@ -66,6 +65,7 @@ class History {
 		return data
 	}
 
+	// TODO: Save old date inside the class for cache
 	// RESPONG TO REQUEST
 	getHistoryData(year) {
 		const today = new Date()

@@ -24,6 +24,7 @@ export function statsTracker() {
 		$stats.eq(3).text(data.boardRequestCount)
 		$stats.eq(4).text(Math.round(data.flipsPerHour * 100) / 100)
 	})
+	socket.emit('stats')
 }
 
 export function timeToString(minutes) {
