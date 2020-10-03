@@ -16,42 +16,102 @@ export default class GridHistory {
 			this.handleDataResponse(data, year)
 		})
 
-		this.$board = createBoard($('div#historyContainer'))
-		this.fetchAllYears()
+		this.$board = createBoard($('div#historyContainer'), "historyBoard")
+		this.initDatePicker()
+		this.fetchYear(this.today.getFullYear())
+	}
+
+	initDatePicker() {
+		this.$historyTemplate = $(
+			`<div class="historyDates">
+				<div id="years" class="historySelector"></div>
+				<div id="months" class="historySelector"></div>
+				<div id="days" class="historySelector"></div>
+				<div id="currentBoard"></div>
+			</div>`)
+
+		this.$historyTemplate.on("click", ".historySelector > span", (event) => {
+			const $target = $(event.target)
+			switch ($target.parent(".historySelector").attr("id")) {
+				case "years":
+					// TODO: Fetch if necessary
+					this.selectDate($target.data("value"), null, null)
+					break
+				case "months":
+					this.selectDate(null, $target.data("value"), null)
+					break
+				case "days":
+					this.selectDate(null, null, $target.data("value"))
+					break
+			}
+		})
+
+		// TODO: Change 2019 for 2020 after testing
+		for (let year = 2019; year <= this.today.getFullYear(); year++) {
+			this.$historyTemplate.find("#years").append(`<span data-value=${year}>${year}</span>`)
+		}
+
+		this.$board.before(this.$historyTemplate)
 	}
 
 	handleDataResponse(data, year) {
 		this.historyData[year] = data
 
 		console.log(this.historyData)
-		// TODO: Save in local storage previous years
 
 		if (!this.selectedDate.year) {
 			this.findInitialDate(year)
 		}
 	}
 
-	fetchAllYears() {
-		for (let year = this.today.getFullYear(); year >= 2020; year--) {
-			// TODO: Don't ask if the years data are present in local storage and retrieve it
-			window.socket.emit('history', year)
-		}
+	fetchYear(year) {
+		window.socket.emit('history', year)
+		// TODO: regenerate datepicker
 	}
 
 	findInitialDate(year) {
-		for (let index in this.historyData[year]) {
-			if (this.historyData[year][index] !== null) {
-				const month = index
-				console.log(this.historyData[year][month])
-				const [day] = [Object.keys(this.historyData[year][month])[0]]
-				this.selectDate(year, month, day)
-				break;
+		const months = Object.keys(this.historyData[year]).reverse()
+		for (const month of months) {
+			if (this.historyData[year][month] !== null) {
+				const days = Object.keys(this.historyData[year][month]).reverse()
+				for (const day of days) {
+					if (this.historyData[year][month][day] !== null) {
+						this.selectDate(year, month, day)
+						break;
+					}
+				}
+
+				if (this.selectedDate.year !== null) {
+					break
+				}
 			}
+			console.log('error, did not find any initial day')
+			// TODO: return error
 		}
 	}
 
 	selectDate(year, month, day) {
-		loadBoardData(this.$board, this.historyData[year][month][day].board)
+		console.log(year, month, day)
+		if(year !== null) {
+			this.selectedDate.year = year;
+			// TODO: select last day available && last day
+			// TODO: regenerate date picker
+			this.$historyTemplate.find(`#years.active`).removeClass("active")
+			this.$historyTemplate.find(`#years[data-value="${year}"]`).addClass("active")
+		}
+		if(month !== null) {
+			this.selectedDate.month = month;
+			// TODO: select last day available
+			// TODO: regenerate date picker
+			this.$historyTemplate.find(`#months.active`).removeClass("active")
+			this.$historyTemplate.find(`#months[data-value="${month}"]`).addClass("active")
+		}
+		if(day !== null) {
+			this.selectedDate.day = day;
+			this.$historyTemplate.find(`#days.active`).removeClass("active")
+			this.$historyTemplate.find(`#days[data-value="${day}"]`).addClass("active")
+		}
+		loadBoardData(this.$board, this.historyData[this.historyData.year][this.historyData.month][this.historyData.day].board)
 	}
 
 

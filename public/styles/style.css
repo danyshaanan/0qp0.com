@@ -58,7 +58,7 @@ a:hover {
 	margin: auto;
 }
 
-#board {
+.board {
 	width: 100%;
 	height: calc(30 * 20px);
 	display: grid;
@@ -90,7 +90,6 @@ a:hover {
 	border: solid #0c32ec 3px;
 }
 
-
 .nav {
 	border-top: solid black 1px;
 	border-bottom: solid black 1px;
@@ -115,13 +114,15 @@ a:hover {
 	position: relative;
 }
 
-.nav ul li:hover, .nav ul li.active {
+.nav ul li:hover,
+.nav ul li.active {
 	color: #777;
 	text-decoration: none;
 }
 
-.nav ul li:hover::after, .nav ul li.active::after {
-	content: '';
+.nav ul li:hover::after,
+.nav ul li.active::after {
+	content: "";
 	position: absolute;
 	top: 50%;
 	transform: translate(0, -50%);
@@ -142,8 +143,6 @@ a:hover {
 	}
 }
 
-
-
 /* STATS */
 #statsContainer {
 	display: none;
@@ -156,4 +155,42 @@ a:hover {
 /* HISTORY */
 #historyContainer {
 	display: none;
+}
+
+.historyDates {
+	margin: 20px 0;
+}
+
+.historySelector {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.historySelector > span {
+	margin: 0 10px;
+	color: black;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.historySelector > span:hover {
+	color: #777;
+	text-decoration: none;
+	position: relative;
+}
+
+
+.historySelector > span:hover::after,
+.historySelector.active > span::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 0;
+	height: 20px;
+	width: 100%;
+	background-color: #0c32ec26;
+	animation-name: textLink;
+	animation-duration: 0.3s;
 }

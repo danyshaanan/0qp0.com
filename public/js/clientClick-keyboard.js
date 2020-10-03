@@ -3,14 +3,15 @@ export default function clientClickKeyboard() { // eslint-disable-line no-unused
 
   function setSelected(id) {
     window.localStorage.selectedId = id
-    $('.selectedCell').removeClass('selectedCell')
-    $('#' + id).addClass('selectedCell')
+    const $board = $("#board")
+    $board.find('.selectedCell').removeClass('selectedCell')
+    $board.find('#' + id).addClass('selectedCell')
   }
 
   function handleKey(event) {
     const key = event.which;
     if (key === 32 || key === 13) {  // Space or Enter
-      $('#' + id).trigger("click")
+      $("#board").find('#' + id).trigger("click")
     } else if ([37, 38, 39, 40].includes(key)) {
       const boardSize = 30
       const dim = (key % 2) ? 1 : 0

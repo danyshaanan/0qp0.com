@@ -11,7 +11,7 @@ export default function clientClick() {
 	const socket = io.connect('/')
 	window.socket = socket;
 
-	const $board = createBoard($('div#boardContainer'))
+	const $board = createBoard($('div#boardContainer'), "board")
 
 	socket.on('board', function (boardData) {
 		boardLoaded = true
