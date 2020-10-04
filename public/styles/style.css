@@ -172,17 +172,18 @@ a:hover {
 	color: black;
 	cursor: pointer;
 	text-decoration: underline;
+	position: relative;
+	padding: 2px 10px;
 }
 
 .historySelector > span:hover {
 	color: #777;
 	text-decoration: none;
-	position: relative;
 }
 
 
 .historySelector > span:hover::after,
-.historySelector.active > span::after {
+.historySelector > span.active::after {
 	content: "";
 	position: absolute;
 	top: 50%;
