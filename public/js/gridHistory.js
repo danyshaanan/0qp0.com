@@ -32,8 +32,7 @@ export default class GridHistory {
 
 		this.initClickEvents()
 
-		// TODO: Change 2019 for 2020 after testing
-		for (let year = 2019; year <= this.today.getFullYear(); year++) {
+		for (let year = 2020; year <= this.today.getFullYear(); year++) {
 			this.$historyTemplate.find("#years").append(`<span data-value=${year}>${year}</span>`)
 		}
 
