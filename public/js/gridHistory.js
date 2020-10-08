@@ -50,11 +50,12 @@ export default class GridHistory {
 
 		const previousSelectedMonth = this.$historyTemplate.find(`#months .active`).data("value")
 		if (previousSelectedMonth != this.selectedDate.month) {
-			console.log('updating month ?')
 			this.$historyTemplate.find("#months").empty()
 			for (const month in this.historyData[this.selectedDate.year]) {
+				const dateToMonth = new Date()
 				if (this.historyData[this.selectedDate.year][month] !== null) {
-					this.$historyTemplate.find("#months").append(`<span data-value=${month}>${parseInt(month) + 1}</span>`)
+					dateToMonth.setMonth(month)
+					this.$historyTemplate.find("#months").append(`<span data-value=${month}>${dateToMonth.toLocaleString(undefined, { month: 'long'})}</span>`)
 				}
 			}
 			this.$historyTemplate.find(`#months [data-value="${this.selectedDate.month}"]`).addClass("active")
@@ -81,7 +82,6 @@ export default class GridHistory {
 
 	handleDataResponse(data, year) {
 		this.historyData[year] = data
-		console.log(this.historyData)
 
 		if (this.selectedDate.year == year || !this.selectedDate.year) {
 			this.selectDate(year, null, null)
@@ -108,7 +108,6 @@ export default class GridHistory {
 					break
 				}
 			}
-			console.log('error, did not find any initial day')
 		}
 	}
 
@@ -116,7 +115,6 @@ export default class GridHistory {
 		const days = Object.keys(this.historyData[year][month]).reverse()
 		for (const day of days) {
 			if (this.historyData[year][month][day] !== null) {
-				console.log('found the perfect day', year, month, day)
 				this.selectedDate.year = year;
 				this.selectedDate.month = month;
 				this.selectedDate.day = day;
@@ -127,7 +125,6 @@ export default class GridHistory {
 
 	selectDate(year, month, day) {
 		if (year !== null && !this.historyData[year]) { // The year is not already loaded
-			console.log('year not laoded, will come back soon')
 			this.selectedDate.year = year
 			this.fetchYear(year)
 			return
