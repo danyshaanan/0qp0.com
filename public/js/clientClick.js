@@ -1,52 +1,38 @@
-/* globals $,io */
-function clientClick() { // eslint-disable-line no-unused-vars
-  'use strict'
-  if (!window.io) throw new Error('socket.io is not loaded! Aborting...') // TODO: check error, show in gui.
+/* global io */
+'use strict'
 
-  var boardLoaded = false
+import { createBoard, setCell, loadBoardData } from "./boardInteractions"
 
-  function createBoard(boardSize, cellSize) {
-    board = $('<div/>', { id: 'board' }).appendTo($('div#content'))
-    for (var h = 1; h <= boardSize; h++) {
-      for (var w = 1; w <= boardSize; w++) {
-        $('<span/>', { id: h + 'x' + w, style: 'top:' + (h * cellSize) + 'px; left:' + (w * cellSize) + 'px;' }).appendTo(board)
-      }
-    }
-    cells = $('span', board)
-      .css({ width: cellSize, height: cellSize, position: 'absolute', border: 'black 1px solid' })
-      .click(function() {
-        if (boardLoaded) {
-          // $(this).css('background-color', $(this).css('background-color') === 'black' ? 'white' : 'black')
-          socket.emit('flip', $(this).attr('id'))
-        }
-      })
-  }
+export default function clientClick() {
+	if (!window.io) throw new Error('socket.io is not loaded! Aborting...') // TODO: check error, show in gui.
 
-  function set(cell, state) {
-    $('#' + cell).css('background-color', state ? 'black' : 'white')
-  }
+	let boardLoaded = false
 
-  var socket = io.connect('/')
-  var cells, board // TODO: Is board ever used? use it to hold current state on client.
-  // var updateInterval, playerInterval
+	const socket = io.connect('/')
+	window.socket = socket;
 
-  socket.on('flip', function(data) {
-    set(data.cell, data.state)
-  })
+	const $board = createBoard($('div#boardContainer'), "board")
 
-  socket.on('banned', function(cell) {
-    window.console.log('flip rejected. You seem to be banned. Contact the site owner if you think this was a mistake')
-    // TODO: negate cell
-  })
+	socket.on('board', function (boardData) {
+		boardLoaded = true
+		loadBoardData($board, boardData)
 
-  socket.on('board', function(board) {
-    boardLoaded = true
-    cells.each(function(i, v) {
-      var id = $(v).attr('id')
-      set(id, ~board.indexOf(id))
-    })
-  })
+		$board.on('click', 'span', (event) => {
+			if (boardLoaded) {
+				socket.emit('flip', $(event.target).attr('id'))
+			}
+		})
+	})
 
-  createBoard(30, 20)
-  socket.emit('board')
+	socket.on('flip', function (data) {
+		setCell($board, data.cell, data.state)
+	})
+
+	socket.on('banned', function (cell) {
+		console.log('flip rejected. You seem to be banned. Contact the site owner if you think this was a mistake')
+		// TODO: negate cell
+	})
+
+
+	socket.emit('board')
 }

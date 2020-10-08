@@ -1,29 +1,34 @@
 {
-  "name": "click",
-  "version": "2.0.0",
-  "description": "Multiuser pixel art drawing board",
-  "author": "Dany Shaanan",
-  "repository": "git@github.com:danyshaanan/click.git",
-  "homepage": "http://0qp0.com",
-  "bugs": "https://github.com/danyshaanan/click/issues",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "express": "4.16.4",
-    "lodash": "4.17.11",
-    "socket.io": "2.2.0"
-  },
-  "devDependencies": {
-    "eslint": "5.15.2",
-    "eslint-config-standard": "12.0.0",
-    "eslint-plugin-import": "2.16.0",
-    "eslint-plugin-node": "8.0.1",
-    "eslint-plugin-promise": "4.0.1",
-    "eslint-plugin-standard": "4.0.0"
-  },
-  "scripts": {
-    "lint": "./node_modules/.bin/eslint .",
-    "test": "npm run lint",
-    "start": "node server/click.js"
-  }
+	"name": "click",
+	"version": "2.0.1",
+	"description": "Multiuser pixel art drawing board",
+	"author": "Dany Shaanan",
+	"repository": "git@github.com:danyshaanan/click.git",
+	"homepage": "http://0qp0.com",
+	"bugs": "https://github.com/danyshaanan/click/issues",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"express": "4.17.1",
+		"jquery": "3.5.1",
+		"lodash": "4.17.20",
+		"socket.io": "2.3.0",
+		"socket.io-client": "^2.3.0"
+	},
+	"devDependencies": {
+		"eslint": "7.9.0",
+		"eslint-config-standard": "14.1.1",
+		"eslint-plugin-import": "2.22.0",
+		"eslint-plugin-node": "11.1.0",
+		"eslint-plugin-promise": "4.2.1",
+		"eslint-plugin-standard": "4.0.1",
+		"parcel-bundler": "^1.12.4"
+	},
+	"scripts": {
+		"lint": "./node_modules/.bin/eslint .",
+		"test": "npm run lint",
+		"start": "node server/click.js",
+		"watch": "npx parcel watch public/js/main.js --out-dir public/dist/js --no-source-maps",
+		"build": "npx parcel build public/js/main.js --out-dir public/dist/js --no-source-maps"
+	}
 }

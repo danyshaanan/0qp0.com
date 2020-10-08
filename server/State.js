@@ -9,7 +9,7 @@ function State(path) {
   }
 }
 
-State.prototype.read = function(key) {
+State.prototype.read = function (key) {
   if (fs.existsSync(this._path)) {
     var data = fs.readFileSync(this._path)
     var settings = JSON.parse(data)
@@ -19,7 +19,7 @@ State.prototype.read = function(key) {
   }
 }
 
-State.prototype.write = function(key, val) {
+State.prototype.write = function (key, val) {
   try {
     var settings = JSON.parse(fs.readFileSync(this._path))
     settings[key] = val
